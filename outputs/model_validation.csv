@@ -1,0 +1,20 @@
+check,value
+out-of-sample R2 (log views),0.666
+R2 with follower count only,0.641
+50% interval coverage (target 50%),0.496
+80% interval coverage (target 80%),0.793
+90% interval coverage (target 90%),0.896
+"mean residual, macro (0 = unbiased)",-0.006
+"mean residual, micro (0 = unbiased)",-0.011
+"mean residual, mid (0 = unbiased)",-0.02
+"mean residual, nano (0 = unbiased)",0.015
+category effect gaming vs FMCG (fitted / true),+0.08 / +0.23
+category effect entertainment vs FMCG (fitted / true),+0.19 / +0.15
+category effect D2C vs FMCG (fitted / true),+0.02 / -0.05
+category effect finance vs FMCG (fitted / true),-0.31 / -0.31
+format effect reel vs carousel (fitted / true),+0.76 / +0.74
+fraud signal AUC: 24h views / 30d views,0.937
+share of flagged posts caught at 1% false-positive rate,0.85
+estimated per-post noise (log sd),1.077
+estimated campaign-shared noise (log sd),0.311
+"true values used in the generator (post, campaign)","1.05, 0.30"

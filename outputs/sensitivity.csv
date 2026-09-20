@@ -1,0 +1,10 @@
+setting,over_budget,median_budget_used,mean_rung1_reach,median_payout_share_of_cpm,within_sim_p90
+"baseline (cap 40%, continue 40%, confidence 90%)",0,47%,41%,15%,92%
+ROI cap 30%,0,38%,41%,12%,92%
+ROI cap 50%,0,51%,41%,17%,92%
+target rung-1 reach 40%,0,41%,36%,14%,84%
+target rung-1 reach 60%,0,46%,47%,15%,92%
+target continuation 30%,0,42%,41%,14%,88%
+target continuation 50%,0,45%,41%,13%,92%
+budget confidence 80%,0,48%,41%,15%,92%
+budget confidence 95%,0,42%,41%,14%,92%

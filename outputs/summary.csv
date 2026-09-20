@@ -1,0 +1,24 @@
+,value
+campaigns,100
+manual_over_budget,17
+proposed_over_budget_gated,1
+proposed_over_budget_ungated,1
+manual_overspend_inr,225650.0
+proposed_overspend_gated_inr,14600.0
+proposed_overspend_ungated_inr,28100.0
+manual_median_budget_used,0.6656451233842537
+proposed_median_budget_used,0.47075
+manual_total_paid_as_paid,16189300
+manual_total_paid_clean,14850150
+proposed_total_paid_clean,11512200
+manual_paid_to_flagged_posts,1339150
+manual_mean_completion,0.40076577146279857
+proposed_mean_completion,0.44040259025626777
+manual_share_m1_in_target_band,0.45
+proposed_share_m1_in_target_band,0.77
+manual_median_payout_share_of_cpm,0.18985599036447698
+proposed_median_payout_share_of_cpm,0.1522040092120155
+proposed_within_sim_p90_share,0.91
+manual_in_sim_p10_p90_share,0.75
+continuation_manual,0.43 / 0.46 / 0.21
+continuation_proposed,0.44 / 0.46 / 0.42

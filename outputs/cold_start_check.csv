@@ -1,0 +1,6 @@
+hidden_category,campaigns,flagged_cold_start,proposed_over_budget,within_sim_p90_share,mean_completion
+D2C,22,22,0,0.955,0.431
+FMCG,22,22,0,1.0,0.409
+entertainment,18,18,1,0.889,0.501
+finance,18,18,0,0.944,0.4
+gaming,20,20,0,0.9,0.484
