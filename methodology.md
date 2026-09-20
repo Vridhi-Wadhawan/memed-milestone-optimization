@@ -8,7 +8,7 @@ My definition, in priority order:
 
 1. **Stay inside the budget with 90% confidence.** The 90th percentile of simulated total payout must be at or below the budget. This is a hard constraint. It is 95% if we have little history for the campaign type.
 2. **Never pay more than 40% of what the same reach costs on paid media.** This is my ROI ceiling. Payout per extra 1,000 views can't go above 40% of the assumed CPM.
-3. **Keep the ladder climbable but not trivial.** About half of creators should reach the first rung, and of the creators who reach any rung, 25% to 65% should reach the next. Below that, people give up. Above it, the ladder is easy to grind.
+3. **Keep the ladder climbable but not trivial.** I call each milestone in the ladder a "rung". About half of creators should reach the first rung, and of the creators who reach any rung, 25% to 65% should reach the next. Below that, people give up. Above it, the ladder is easy to grind.
 4. **Then pay as much as 1 and 2 allow.** Once the shape is fixed, payouts are scaled up until the budget or the ROI ceiling binds.
 
 Budget comes first because it is the one failure a brand cannot forgive. The ROI ceiling comes second because without it the tool would happily spend the whole budget just because it can. Budget is a ceiling, not a target. If the ROI ceiling binds first, the money is left unspent, and I think that is the right answer (the brand can put it into more creators).
@@ -50,7 +50,7 @@ For a new campaign I simulate 400 versions of it. In each one the number of crea
 - The 50%, 80% and 90% prediction intervals contain 49.6%, 79.3% and 89.6% of held-out posts.
 - The model recovers the reel and finance effects well. It underestimates gaming (+0.08 fitted against +0.23 true). With only about 20 campaigns per category and a 0.30 campaign shock, category effects are only pinned down to roughly ±0.07, so this is noise I should expect, not a bug.
 
-The recovery check is circular (the generator and model are both mine). What it does show is that the code is doing what I think it is doing.
+The recovery check is circular, since I wrote both the generator and the model. All it tells me is that the code is doing what it is meant to do.
 
 ## 4. From distribution to thresholds
 
@@ -63,7 +63,7 @@ I search over candidate ladders and keep the ones that pass the rules in section
 
 ## 5. Payouts
 
-Payout at each rung = payout rate × (threshold ÷ 1,000) × assumed CPM. Payouts are cumulative, so a creator who reaches rung 3 gets the rung 3 amount, not 1 + 2 + 3. The rate is the highest value between 10% and 40% that still keeps P90 of total payout inside the budget. Below 15% I add a warning, because I doubt creators would bother.
+Payout at each rung = payout rate × (threshold ÷ 1,000) × assumed CPM. Payouts are cumulative, so a creator who reaches rung 3 gets the rung 3 amount, not 1 + 2 + 3. The rate is the highest value between 10% and 40% that still keeps P90 of total payout inside the budget. Below 15% I add a warning, because I suspect creators won't bother, but I have no data on that.
 
 This makes payout per extra view the same at every rung. I did that on purpose, so nobody can argue the top rung is priced differently to the bottom one. The brief's own example ladder is close to this.
 
@@ -77,7 +77,7 @@ It does not fully solve nano creators. Their median post is around 1,000 views, 
 
 Two things are in the code. Flagged posts are left out of training, so a bot-inflated post does not push future thresholds up. And the backtest pays only on non-flagged posts, which stands for a rule that only validated views count.
 
-What is not in the code is detection. The flag is a given label. On this data, 24h views divided by 30-day views separates flagged from clean posts well (AUC 0.94, 85% caught at a 1% false alarm rate), but that is circular because I built the flagged posts to look that way. It shows which fields Meme'd would need to log: growth curve, audience geography, watch time, engagement per view, traffic source.
+What is not in the code is detection. The flag is a given label. On this data, 24h views divided by 30-day views separates flagged from clean posts well (AUC 0.94, 85% caught at a 1% false alarm rate). That result is circular, because I built the flagged posts to look that way. The useful part is the list of fields Meme'd would need to log: growth curve, audience geography, watch time, engagement per view, traffic source.
 
 If payouts were made on raw views, the proposed ladders would have paid ₹28,100 over budget instead of ₹14,600, and the manual ladders paid ₹1.34M (8% of everything paid) to flagged posts.
 
@@ -96,7 +96,7 @@ To test this I hid each category in turn and ran every campaign in it (all 100 c
 | Campaigns over budget | 17 | 1 |
 | Total overspend | ₹225,650 | ₹14,600 |
 | Median share of budget used | 67% | 47% |
-| Total paid on clean posts | ₹14.85M | ₹11.51M |
+| Total paid on non-flagged posts | ₹14.85M | ₹11.51M |
 | Creators reaching rung 1 (mean) | 40% | 44% |
 | Continuation, rung 3 to 4 | 21% | 42% |
 
@@ -104,10 +104,10 @@ Reach by creator tier: nano 5% to 16%, micro 29% to 47%, mid 68% to 57%, macro 9
 
 How to read this:
 
-- The 17 manual overruns come from how I built the budgets (section 2). They show the method responds to the budget. They do not say Meme'd overspends 17% of the time.
+- The 17 manual overruns come from how I built the budgets (section 2). They only show that the method responds to a budget. They say nothing about how often Meme'd really overspends.
 - The number that tests the method is calibration. The realised payout was at or below the simulated P90 in 91% of campaigns (target 90%). The manual ladder's realised payout landed inside the simulated 10th to 90th percentile range in 75% of campaigns (target 80%). So the model is a little too confident.
 - Completion went up in 70 campaigns and down in 30. It went down mostly where the manual ladder was too easy: in CA061 (gaming, macro) 81% of creators hit rung 1 under the manual ladder and 43% under the proposed one. I count that as intended, but a brand may not like the headline.
-- The share of campaigns with rung-1 reach in my 30% to 70% band went from 45% to 77%. That band is my own definition, so it is not independent evidence.
+- The share of campaigns with rung-1 reach in my 30% to 70% band went from 45% to 77%. I set that band myself, so this checks my own definition and proves nothing independent.
 - Completion only looks at thresholds. It cannot tell whether the rupee amounts are attractive. That needs real participation data.
 - In 6 campaigns the budget was too small to pay even 15% of media value at 90% confidence. The tool says so instead of returning a ladder that looks fine.
 
@@ -115,12 +115,16 @@ How to read this:
 
 ## 10. Limits, and what would break it
 
-- **Same author, same assumptions.** The generator and the model share a structure (lognormal, multiplicative effects), so the backtest is friendlier than real data will be. Real views have viral spikes, seasonality and algorithm changes.
-- **Budgets and CPM are invented.** Both drive the results directly.
-- **Creator behaviour is not modelled.** I don't model whether a creator posts at all, or drops out after missing a rung. "Reached rung 1" is a stand-in for motivation.
-- **Views are counted at the end.** The ladder ignores timing. A creator who is at 40K views on day 10 behaves differently from one who plateaued at 40K on day 2.
-- **The four rungs are fixed.** More or fewer rungs might be better.
-- **Repeat creators.** Small tiers force some creators to appear in the same campaign twice in my data.
-- **Creator count.** I assume it is known. In practice it depends on the ladder itself.
-
+- The generator and the model share a structure (lognormal, multiplicative effects), so the backtest is friendlier than real data will be. Real views have viral spikes, seasonality and algorithm changes.
+- Budgets and CPMs are invented, and both drive the results directly.
+- I don't model whether a creator posts at all, or drops out after missing a rung. "Reached rung 1" is a stand-in for motivation.
+- Only final views count. A creator at 40K views on day 10 behaves differently from one who plateaued at 40K on day 2, and the ladder can't tell them apart.
+- I fixed the ladder at four rungs. More or fewer might work better.
+- In my data, small tiers force some creators to appear in the same campaign twice.
+- I assume the creator count is known. In practice it depends on the ladder itself.
+  
 Data I would ask Meme'd for first: creator-level post history by platform and format, real paid CPMs, verified views with growth curves, timestamps of when creators stopped posting in a campaign, and past budget overruns and underspends.
+
+## 11. What I'd do next
+
+With another week, I'd first swap the invented CPM table for real numbers, since the payouts depend on it directly. Then I'd test the ladder against actual drop-off data, so "reached rung 1" stops being a stand-in for motivation. Only after that would I look at a fancier model. I doubt it would help much, because most of the variation in views is noise (R² of 0.67, against 0.64 from follower count alone), so better inputs matter more than a better model.
